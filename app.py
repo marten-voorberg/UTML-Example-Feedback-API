@@ -7,7 +7,7 @@ CORS(app)
 
 
 @app.route('/', methods=['POST'])
-def hello_world():
+def counter():
     data = request.get_json()
 
     if data is None:
@@ -40,6 +40,29 @@ def hello_world():
         }
     })
 
+@app.route('/error/', methods=['POST'])
+def always_error():
+    return jsonify({
+        'status': 'error',
+        'errorMessage': 'This always returns an error!'
+    })
+
+@app.route('/warning/', methods=['POST'])
+def always_warning():
+    return jsonify({
+        'status': 'warning',
+        'errorMessage': 'This always returns a warning!'
+    })
+
+@app.route('/diagram/', methods=['POST'])
+def always_diagram():
+    return jsonify({
+        'status': 'success',
+        'feedback': {
+            'messages': []
+        },
+        'diagram': {"edges":[],"nodes":[{"type":"CommentNode","width":300,"height":200,"position":{"x":500,"y":100},"text":"This diagram is returned\\nby the API!","hasDoubleBorder":False,"styleObject":{"fill":"white","stroke":"black","stroke-width":2,"fill-opacity":1,"stroke-opacity":0.75}}]}
+    })
 
 if __name__ == '__main__':
     app.run()
